@@ -1,4 +1,4 @@
-class hashMap {
+export class hashMap {
   #loadFactorLimit;
   #capacity;
   #map;
@@ -25,13 +25,15 @@ class hashMap {
   }
 
   #growCapacity() {
-    console.log("Increasing capacity!")
+    // console.log("Increasing capacity!")
     let nodesToRehash = this.entries();
     this.#capacity *= 2;
     this.clear();
     for (let i = 0; i < nodesToRehash.length; i++) {
       this.set(nodesToRehash[i][0], nodesToRehash[i][1]);      
-    }    
+    }
+    // console.log(`Capacity: ${this.#capacity}`);
+    // console.log(`Load factor: ${this.#loadFactor}`);    
   }
 
   #hash(key) {
@@ -194,12 +196,5 @@ class hashMap {
         this.set(key, value);
       }
     })
-    console.log(`Capacity: ${this.#capacity}`);
-    console.log(`Load factor: ${this.#loadFactor}`);
-    console.log(``)
   }
 }
-
-
-let hm = new hashMap();
-hm.testSetterWithPlaces();
