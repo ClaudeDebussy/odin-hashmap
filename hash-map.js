@@ -85,16 +85,23 @@ class hashMap {
       return true;
     }
     return false
+  }  
+
+  length() {
+    return this.#totalItems;
+  }
+
+  clear() {
+    for (let i = 0; i < this.#map.length; i++) {
+      this.#map[i] = [];
+    }
+    this.#totalItems = 0;
   }
 
   entries() {
     this.#map.forEach(element => {
       console.log(element);
     });
-  }
-
-  length() {
-    return this.#totalItems;
   }
 
   //--- Debugging helpers ---
@@ -153,9 +160,6 @@ class hashMap {
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
-hm.remove('Blue Horizon Observatory');
-hm.entries();
+hm.clear();
 console.log(hm.length());
-hm.remove('Luna Park');
 hm.entries();
-console.log(hm.length());
