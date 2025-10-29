@@ -109,6 +109,17 @@ class hashMap {
     return arr;
   }
 
+  values() {
+    if (this.length() === 0) {return null}
+    let arr = [];
+    for (let i = 0; i < this.#map.length; i++) {
+      for (let j = 0; j < this.#map[i].length; j++) {
+        arr.push(this.#map[i][j].value);
+      }
+    }
+    return arr;
+  }
+
   entries() {
     this.#map.forEach(element => {
       console.log(element);
@@ -171,4 +182,4 @@ class hashMap {
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
-console.log(hm.keys());
+console.log(hm.values());
