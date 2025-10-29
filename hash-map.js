@@ -50,6 +50,16 @@ class hashMap {
     }
   }
 
+  has(key) {    
+    let hashCode = this.#hash(key)
+    if (this.length() < 1) {return false}
+    if (this.#map[hashCode].length < 1) {return false}
+    for (let i = 0; i < this.#map[hashCode].length; i++) {
+      if (this.#map[hashCode][i].key === key) {return true}
+    }
+    return false;
+  }
+
   entries() {
     this.#map.forEach(element => {
       console.log(element);
@@ -65,7 +75,7 @@ class hashMap {
     let keys = ['Jack', 'Jill', 'went', 'up', 'the', 'hill', 'to', 'fetch', 'a', 'cilantro', 'plant'];
     let hashes = [];
     console.log(hashes)
-    for (i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       hashes.push(hm.hash(keys[i]))
     }
     console.log(hashes)
@@ -117,4 +127,5 @@ class hashMap {
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
+console.log(hm.has("Luna Park"))
 console.log(`Length: ${hm.length()}`)
