@@ -26,17 +26,25 @@ class hashMap {
   }
 
   set(key, value) { 
-    let hashCode = this.hash(key);
-    // If the bucket has no data or the keys are not the same push value into bucket
-    if (this.#map[hashCode].length === 0 || this.#map[hashCode].key != key) { 
+    let hashCode = this.hash(key);    
+    // If the bucket has no data create node
+    if (this.#map[hashCode].length === 0) { 
       this.#map[hashCode].push( {key, value} );
-      console.log(this.#map[hashCode]);
       this.#totalItems++;
       return;
     }
-    if (this.#map[hashCode].key === key) { // If bucket contains same key update value
-      this.#map[hashCode].value = value;
-      return;
+    // If keys are not identical create node
+    for (let i = 0; i < this.#map[hashCode].length; i++) {
+      if (this.#map[hashCode][i].key != key) { 
+        this.#map[hashCode].push( {key, value} );
+        this.#totalItems++;
+        return;
+      }    
+      // If bucket contains same key update value
+      if (this.#map[hashCode][i].key === key) { 
+        this.#map[hashCode][i].value = value;
+        return;
+      }    
     }
   }
 
@@ -49,62 +57,62 @@ class hashMap {
   length() {
     return this.#totalItems;
   }
+
+  //Debugging helpers
+  testSetterWithWords() {
+    let keys = ['Jack', 'Jill', 'went', 'up', 'the', 'hill', 'to', 'fetch', 'a', 'cilantro', 'plant'];
+    let hashes = [];
+    console.log(hashes)
+    for (i = 0; i < keys.length; i++) {
+      hashes.push(hm.hash(keys[i]))
+    }
+    console.log(hashes)
+  }
+
+  testSetterWithPlaces() {
+    let list = [
+      { "Starbucks": "coffee shop" },
+      { "Central Park": "public park" },
+      { "Metropolitan Museum of Art": "museum" },
+      { "The Grand Hotel": "hotel" },
+      { "Whole Foods Market": "grocery store" },
+      { "Cineplex Odeon": "movie theater" },
+      { "Bluefin Sushi": "restaurant" },
+      { "Planet Fitness": "gym" },
+      { "Harbor Library": "library" },
+      { "Union Station": "train station" },
+      { "Sunnyvale Elementary": "school" },
+      { "Riverwalk Plaza": "shopping mall" },
+      { "St. Marys Hospital": "hospital" },
+      { "Greenview Apartments": "residential complex" },
+      { "TechWorks Co.": "office building" },
+      { "TechWorks Co.": "office building" },
+      { "Seaside Inn": "motel" },
+      { "The Iron Horse": "bar" },
+      { "City Hall": "government building" },
+      { "Northside Fire Station": "fire station" },
+      { "Sunset Pier": "tourist attraction" },
+      { "Elmwood Cemetery": "cemetery" },
+      { "Pinecrest Campground": "campground" },
+      { "Luna Park": "amusement park" },
+      { "Sky Harbor Airport": "airport" },
+      { "Brighton Stadium": "sports stadium" },
+      { "Oceanview Marina": "marina" },
+      { "Golden Sands Resort": "resort" },
+      { "Downtown Clinic": "medical clinic" },
+      { "Riverside Chapel": "church" },
+      { "Blue Horizon Observatory": "observatory" }
+    ];
+    list.forEach(obj => {
+      for (const [key, value] of Object.entries(obj)) {
+        this.set(key, value);
+      }
+    })
+    hm.entries()
+  }
 }
 
-//Debugging helpers
-function testSetterWithWords() {
-  let keys = ['Jack', 'Jill', 'went', 'up', 'the', 'hill', 'to', 'fetch', 'a', 'cilantro', 'plant'];
-  let hashes = [];
-  console.log(hashes)
-  for (i = 0; i < keys.length; i++) {
-    hashes.push(hm.hash(keys[i]))
-  }
-  console.log(hashes)
-}
-
-function testSetterWith100Places() {
-  let list = [
-    { "Starbucks": "coffee shop" },
-    { "Central Park": "public park" },
-    { "Metropolitan Museum of Art": "museum" },
-    { "The Grand Hotel": "hotel" },
-    { "Whole Foods Market": "grocery store" },
-    { "Cineplex Odeon": "movie theater" },
-    { "Bluefin Sushi": "restaurant" },
-    { "Planet Fitness": "gym" },
-    { "Harbor Library": "library" },
-    { "Union Station": "train station" },
-    { "Sunnyvale Elementary": "school" },
-    { "Riverwalk Plaza": "shopping mall" },
-    { "St. Marys Hospital": "hospital" },
-    { "Greenview Apartments": "residential complex" },
-    { "TechWorks Co.": "office building" },
-    { "TechWorks Co.": "office building" },
-    { "Seaside Inn": "motel" },
-    { "The Iron Horse": "bar" },
-    { "City Hall": "government building" },
-    { "Northside Fire Station": "fire station" },
-    { "Sunset Pier": "tourist attraction" },
-    { "Elmwood Cemetery": "cemetery" },
-    { "Pinecrest Campground": "campground" },
-    { "Luna Park": "amusement park" },
-    { "Sky Harbor Airport": "airport" },
-    { "Brighton Stadium": "sports stadium" },
-    { "Oceanview Marina": "marina" },
-    { "Golden Sands Resort": "resort" },
-    { "Downtown Clinic": "medical clinic" },
-    { "Riverside Chapel": "church" },
-    { "Blue Horizon Observatory": "observatory" }
-  ];
-  for (const [key, value] of Object.entries(list)) {
-    hm.set(key, value)
-  }
-  hm.entries()
-}
 
 let hm = new hashMap();
-testSetterWith100Places();
-console.log(hm)
-console.log(hm.length())
-
-// TO FIX: Adding duplicate keys seems to mess up logic
+hm.testSetterWithPlaces();
+console.log(`Length: ${hm.length()}`)
