@@ -50,6 +50,16 @@ class hashMap {
     }
   }
 
+  get(key) {
+    if (this.length() < 1) {return null}
+    let hashCode = this.#hash(key);
+    if (this.#map[hashCode].length === 0) {return null}
+    for (let i = 0; i < this.#map[hashCode].length; i++) {
+      if (this.#map[hashCode][i].key === key) {return this.#map[hashCode][i].value}
+    }
+    return null
+  }
+
   has(key) {    
     let hashCode = this.#hash(key)
     if (this.length() < 1) {return false}
@@ -126,7 +136,9 @@ class hashMap {
 
 
 let hm = new hashMap();
-//hm.testSetterWithPlaces();
-console.log(hm.has("Luna Park"))
-console.log(hm.has("Yangiobod"))
-console.log(`Length: ${hm.length()}`)
+hm.testSetterWithPlaces();
+console.log(hm.has("Luna Park"));
+console.log(hm.has("Yangiobod"));
+console.log(hm.get("Oceanview Marina"));
+console.log(hm.get("Yangiobod"));
+console.log(`Length: ${hm.length()}`);
