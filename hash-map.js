@@ -1,21 +1,23 @@
 class hashMap {
-  #loadFactor;
+  #loadFactorLimit;
   #capacity;
   #map;
-  #currentLoadFactor = 0;
-  #totalItems = 0;
+  #loadFactor;
+  #totalItems;
   
-  constructor(loadFactor = 0.75, capacity = 16) {
-    this.#loadFactor = loadFactor;
+  constructor(loadFactorlimit = 0.75, capacity = 16) {
+    this.#loadFactorLimit = loadFactorlimit;
     this.#capacity = capacity;
     this.#map = [];
+    this.#loadFactor = 0;
+    this.#totalItems = 0;
     
     for (let i = 0; i < capacity; i++) {
       this.#map.push([])
     }
   }
 
-  hash(key) {
+  #hash(key) {
     let hashCode = 0;
     const PRIME_NUMBER = 31;
 
@@ -26,7 +28,7 @@ class hashMap {
   }
 
   set(key, value) { 
-    let hashCode = this.hash(key);    
+    let hashCode = this.#hash(key);    
     // If the bucket has no data create node
     if (this.#map[hashCode].length === 0) { 
       this.#map[hashCode].push( {key, value} );
@@ -58,7 +60,7 @@ class hashMap {
     return this.#totalItems;
   }
 
-  //Debugging helpers
+  //--- Debugging helpers ---
   testSetterWithWords() {
     let keys = ['Jack', 'Jill', 'went', 'up', 'the', 'hill', 'to', 'fetch', 'a', 'cilantro', 'plant'];
     let hashes = [];
