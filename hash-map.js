@@ -61,13 +61,30 @@ class hashMap {
   }
 
   has(key) {    
-    let hashCode = this.#hash(key)
     if (this.length() < 1) {return false}
+    let hashCode = this.#hash(key)
     if (this.#map[hashCode].length < 1) {return false}
     for (let i = 0; i < this.#map[hashCode].length; i++) {
       if (this.#map[hashCode][i].key === key) {return true}
     }
     return false;
+  }
+
+  remove(key) {
+    console.log(`Running remove on ${key}`)
+    let hashCode = this.#hash(key);
+    let location;
+    if (this.has(key)) {
+      for (let i = 0; i < this.#map[hashCode].length; i++) {
+        this.#map[hashCode][i].key === key ? location = i: false;
+      }
+    }
+    if (location) {
+      this.#map[hashCode].splice(location, 1);
+      this.#totalItems--;
+      return true;
+    }
+    return false
   }
 
   entries() {
@@ -130,15 +147,15 @@ class hashMap {
         this.set(key, value);
       }
     })
-    hm.entries()
   }
 }
 
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
-console.log(hm.has("Luna Park"));
-console.log(hm.has("Yangiobod"));
-console.log(hm.get("Oceanview Marina"));
-console.log(hm.get("Yangiobod"));
-console.log(`Length: ${hm.length()}`);
+hm.remove('Blue Horizon Observatory');
+hm.entries();
+console.log(hm.length());
+hm.remove('Luna Park');
+hm.entries();
+console.log(hm.length());
