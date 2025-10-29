@@ -126,7 +126,7 @@ class hashMap {
 
 
 let hm = new hashMap();
-hm.testSetterWithPlaces();
+//hm.testSetterWithPlaces();
 console.log(hm.has("Luna Park"))
 console.log(hm.has("Yangiobod"))
 console.log(`Length: ${hm.length()}`)
