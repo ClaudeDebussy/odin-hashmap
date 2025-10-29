@@ -110,7 +110,7 @@ class hashMap {
   }
 
   values() {
-    if (this.length() === 0) {return null}
+    if (this.length() === 0) {return null};
     let arr = [];
     for (let i = 0; i < this.#map.length; i++) {
       for (let j = 0; j < this.#map[i].length; j++) {
@@ -121,9 +121,17 @@ class hashMap {
   }
 
   entries() {
-    this.#map.forEach(element => {
-      console.log(element);
-    });
+    if (this.length() === 0) {return null};
+    let arr = [];
+    for (let i = 0; i < this.#map.length; i++) {
+      for (let j = 0; j < this.#map[i].length; j++) {
+        let subArr = [];
+        subArr.push(this.#map[i][j].key);
+        subArr.push(this.#map[i][j].value);
+        arr.push(subArr);
+      }
+    }
+    return arr;
   }
 
   //--- Debugging helpers ---
@@ -182,4 +190,4 @@ class hashMap {
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
-console.log(hm.values());
+console.log(hm.entries());
