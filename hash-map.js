@@ -17,6 +17,23 @@ class hashMap {
     }
   }
 
+  #updateLoadFactor(){
+    this.#loadFactor = this.length() / this.#capacity;
+    if (this.#loadFactor > this.#loadFactorLimit) {
+      this.#growCapacity();
+    }
+  }
+
+  #growCapacity() {
+    console.log("Increasing capacity!")
+    let nodesToRehash = this.entries();
+    this.#capacity *= 2;
+    this.clear();
+    for (let i = 0; i < nodesToRehash.length; i++) {
+      this.set(nodesToRehash[i][0], nodesToRehash[i][1]);      
+    }    
+  }
+
   #hash(key) {
     let hashCode = 0;
     const PRIME_NUMBER = 31;
@@ -28,11 +45,12 @@ class hashMap {
   }
 
   set(key, value) { 
-    let hashCode = this.#hash(key);    
+    let hashCode = this.#hash(key);
     // If the bucket has no data create node
     if (this.#map[hashCode].length === 0) { 
       this.#map[hashCode].push( {key, value} );
       this.#totalItems++;
+      this.#updateLoadFactor();
       return;
     }
     // If keys are not identical create node
@@ -40,6 +58,7 @@ class hashMap {
       if (this.#map[hashCode][i].key != key) { 
         this.#map[hashCode].push( {key, value} );
         this.#totalItems++;
+        this.#updateLoadFactor();
         return;
       }    
       // If bucket contains same key update value
@@ -71,7 +90,6 @@ class hashMap {
   }
 
   remove(key) {
-    console.log(`Running remove on ${key}`)
     let hashCode = this.#hash(key);
     let location;
     if (this.has(key)) {
@@ -82,6 +100,7 @@ class hashMap {
     if (location) {
       this.#map[hashCode].splice(location, 1);
       this.#totalItems--;
+      this.#updateLoadFactor;
       return true;
     }
     return false
@@ -92,10 +111,11 @@ class hashMap {
   }
 
   clear() {
-    for (let i = 0; i < this.#map.length; i++) {
+    for (let i = 0; i < this.#capacity; i++) {
       this.#map[i] = [];
     }
     this.#totalItems = 0;
+    this.#loadFactor = 0;
   }
 
   keys() {
@@ -135,16 +155,6 @@ class hashMap {
   }
 
   //--- Debugging helpers ---
-  testSetterWithWords() {
-    let keys = ['Jack', 'Jill', 'went', 'up', 'the', 'hill', 'to', 'fetch', 'a', 'cilantro', 'plant'];
-    let hashes = [];
-    console.log(hashes)
-    for (let i = 0; i < keys.length; i++) {
-      hashes.push(hm.hash(keys[i]))
-    }
-    console.log(hashes)
-  }
-
   testSetterWithPlaces() {
     let list = [
       { "Starbucks": "coffee shop" },
@@ -184,10 +194,12 @@ class hashMap {
         this.set(key, value);
       }
     })
+    console.log(`Capacity: ${this.#capacity}`);
+    console.log(`Load factor: ${this.#loadFactor}`);
+    console.log(``)
   }
 }
 
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
-console.log(hm.entries());
