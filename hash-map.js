@@ -98,6 +98,17 @@ class hashMap {
     this.#totalItems = 0;
   }
 
+  keys() {
+    if (this.length() === 0) {return null}
+    let arr = [];
+    for (let i = 0; i < this.#map.length; i++) {
+      for (let j = 0; j < this.#map[i].length; j++) {
+        arr.push(this.#map[i][j].key);
+      }
+    }
+    return arr;
+  }
+
   entries() {
     this.#map.forEach(element => {
       console.log(element);
@@ -160,6 +171,4 @@ class hashMap {
 
 let hm = new hashMap();
 hm.testSetterWithPlaces();
-hm.clear();
-console.log(hm.length());
-hm.entries();
+console.log(hm.keys());
